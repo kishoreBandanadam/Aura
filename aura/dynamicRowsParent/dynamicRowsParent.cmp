@@ -1,0 +1,34 @@
+<aura:component controller="dynamicRowsController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="records" type="Object[]"/>
+    <aura:attribute name="rows" type="Integer"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doinit}"/>
+    
+    <lightning:card title="Add/Delete Rows Dynamically">
+        <aura:set attribute="actions">
+            <a onclick="{!c.add}">
+                <lightning:icon iconName="utility:add" alternativeText="add"/>
+            </a>
+        </aura:set>
+        
+        <aura:iteration items="{!v.records}" var="rec" indexVar="index">
+            
+            <lightning:layout>
+                <lightning:layoutItem  padding="around-small" flexibility="auto, no-grow">
+                    <div class="slds-text-heading_small slds-text-align_center">{!index + 1}.</div>
+                </lightning:layoutItem>
+                <c:dynamicRows record="{!rec}"/>
+                <lightning:layoutItem size="4" padding="around-small">
+                    <a name="{!index}" onclick="{!c.remove}">
+                        <lightning:icon iconName="utility:delete" alternativeText="delete"/>
+                    </a>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:iteration>
+        <div class="slds-align_absolute-center">
+            <lightning:button label="Save" onclick="{!c.save}" variant="brand"/>
+        </div>
+        
+    </lightning:card>
+</aura:component>
